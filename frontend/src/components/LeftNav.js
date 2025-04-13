@@ -2,53 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 
 const LeftNav = () => {
+    const [collapsed, setCollapsed] = useState(false);
     const location = useLocation();
 
-    // Set initial collapsed state based on window width
-    const [collapsed, setCollapsed] = useState(() => window.innerWidth <= 768);
-
-    // Toggle collapse manually
+    // Function to toggle collapse state manually
     const toggleCollapse = () => {
         setCollapsed(!collapsed);
     };
 
-    // Auto-collapse on window resize
+    // Function to detect window size and automatically collapse on smaller screens
     const handleResize = () => {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 768) { // Define the breakpoint, for example, 768px for tablets and mobile
             setCollapsed(true);
         } else {
             setCollapsed(false);
         }
     };
 
+    // Hook to listen for window resizing to update the state
     useEffect(() => {
-        // Run once on mount
+        // Set initial collapse state based on the current screen size
         handleResize();
 
-        // Resize listener
+        // Add resize event listener
         window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
-    // Collapse nav on route change for small screens
-    useEffect(() => {
-        if (window.innerWidth <= 768) {
-            setCollapsed(true);
-        }
-    }, [location.pathname]);
-
-    // Check active route
-    const isActive = (path) => location.pathname.startsWith(path);
+    // Update `isActive` to check the current route
+    const isActive = (path) => {
+        return location.pathname.startsWith(path);
+    };
 
     return (
         <nav
             className={`bg-gray-800 bg-opacity-30 text-white h-auto
-            flex flex-col transition-all duration-300
-            ${collapsed ? 'w-20' : 'w-64'}
-            sm:fixed sm:z-50 sm:h-screen sm:top-0 sm:left-0 sm:shadow-lg
-            lg:relative lg:w-[15%]'`}
+            lg:w-[15%] sm:w-40 flex flex-col 
+            ${collapsed ? 'w-20' : 'w-64'} transition-all duration-300`}
         >
             <div className="flex items-center justify-between p-4 border-gray-700 text-black">
                 <h1
@@ -57,11 +51,11 @@ const LeftNav = () => {
                 >
                     KEYTRA IMS
                 </h1>
-                <button onClick={toggleCollapse} className="focus:outline-none text-white">
+                <button onClick={toggleCollapse} className="focus:outline-none">
                     {collapsed ? (
-                        <i className="fas fa-bars"></i>
+                        <i className="fas fa-bars"></i> // Hamburger icon for collapsed state
                     ) : (
-                        <i className="fas fa-chevron-left"></i>
+                        <i className="fas fa-chevron-left"></i> // Close icon for expanded state
                     )}
                 </button>
             </div>
@@ -116,7 +110,7 @@ const LeftNav = () => {
                         <Link
                             to="/vouchers"
                             className={`block m-4 p-4 hover:bg-gray-800 rounded-xl hover:text-white 
-                            ${isActive('/vouchers') ? 'bg-gray-900 text-white font-bold' : ''} 
+                            ${isActive('/orders') ? 'bg-gray-900 text-white font-bold' : ''} 
                             ${collapsed ? 'text-center' : ''}`}
                         >
                             <i className="fa-solid fa-chart-line mr-3"></i>
@@ -127,7 +121,7 @@ const LeftNav = () => {
                         <Link
                             to="/delivery-report"
                             className={`block m-4 p-4 hover:bg-gray-800 rounded-xl hover:text-white 
-                            ${isActive('/delivery-report') ? 'bg-gray-900 text-white font-bold' : ''} 
+                            ${isActive('/transactions') ? 'bg-gray-900 text-white font-bold' : ''} 
                             ${collapsed ? 'text-center' : ''}`}
                         >
                             <i className="fa-solid fa-money-bill-trend-up mr-3"></i>
