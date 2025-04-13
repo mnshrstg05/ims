@@ -24,7 +24,7 @@ const DeliveryReport = () => {
     useEffect(() => {
         const fetchVouchers = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/vouchers/get-vouchers');
+                const response = await axios.get('https://ims-3cdk.onrender.com/vouchers/get-vouchers');
                 setVouchers(response.data);
             } catch (error) {
                 toast.error('Failed to fetch vouchers.');
@@ -41,7 +41,7 @@ const DeliveryReport = () => {
         if (!confirm) return;
 
         try {
-            await axios.delete(`http://localhost:5000/vouchers/delete-voucher/${voucherId}`);
+            await axios.delete(`https://ims-3cdk.onrender.com/vouchers/delete-voucher/${voucherId}`);
             setVouchers(prev => prev.filter(v => v._id !== voucherId));
             toast.success('Voucher deleted successfully!');
         } catch (error) {

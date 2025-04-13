@@ -20,10 +20,10 @@ const InventoryDeliveryVoucher = () => {
     useEffect(() => {
         const fetchVoucherNumberAndProducts = async () => {
             try {
-                const productsResponse = await axios.get('http://localhost:5000/vouchers/get-products');
+                const productsResponse = await axios.get('https://ims-3cdk.onrender.com/vouchers/get-products');
                 setProducts(productsResponse.data);
 
-                const voucherResponse = await axios.get('http://localhost:5000/vouchers/generate-voucher-number');
+                const voucherResponse = await axios.get('https://ims-3cdk.onrender.com/vouchers/generate-voucher-number');
                 const currentDate = new Date().toISOString(); // full ISO timestamp
 
                 setVoucherDetails(prevState => ({
@@ -87,7 +87,7 @@ const InventoryDeliveryVoucher = () => {
                 dateOfDelivery: new Date().toISOString() // exact time on submission
             };
 
-             await axios.post('http://localhost:5000/vouchers/create-voucher', formattedVoucherDetails, {
+             await axios.post('https://ims-3cdk.onrender.com/vouchers/create-voucher', formattedVoucherDetails, {
                 headers: { 'Content-Type': 'application/json' }
             });
 

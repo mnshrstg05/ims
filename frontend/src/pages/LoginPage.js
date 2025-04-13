@@ -15,7 +15,7 @@ const LoginForm = ({ setIsAuthenticated }) => {
         event.preventDefault();
     
         try {
-            const response = await axios.post('http://localhost:5000/users/login', { username, password });
+            const response = await axios.post('https://ims-3cdk.onrender.com/users/login', { username, password });
     
             if (response.data.token) {
                 sessionStorage.setItem('authToken', response.data.token);

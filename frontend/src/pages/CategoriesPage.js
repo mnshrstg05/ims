@@ -9,7 +9,7 @@ const CategoriesPage = () => {
     const [editingCategoryName, setEditingCategoryName] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:5000/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories')
             .then(response => setCategories(response.data))
             .catch(error => console.error('Error fetching categories:', error));
     }, []);
@@ -18,7 +18,7 @@ const CategoriesPage = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this category?");
         if (!confirmDelete) return;
 
-        axios.delete(`http://localhost:5000/categories/${categoryId}`)
+        axios.delete(`https://ims-3cdk.onrender.com/categories/${categoryId}`)
             .then(() => {
                 setCategories(categories.filter(category => category._id !== categoryId));
                 alert("Category deleted successfully!");
@@ -28,7 +28,7 @@ const CategoriesPage = () => {
 
     const handleAddCategory = () => {
         if (newCategoryName.trim() !== '') {
-            axios.post('http://localhost:5000/categories', { name: newCategoryName })
+            axios.post('https://ims-3cdk.onrender.com/categories', { name: newCategoryName })
                 .then(response => {
                     setCategories([...categories, response.data]);
                     setNewCategoryName('');
@@ -43,7 +43,7 @@ const CategoriesPage = () => {
     };
 
     const handleEditSave = (categoryId) => {
-        axios.put(`http://localhost:5000/categories/${categoryId}`, { name: editingCategoryName })
+        axios.put(`https://ims-3cdk.onrender.com/categories/${categoryId}`, { name: editingCategoryName })
             .then(response => {
                 setCategories(categories.map(cat =>
                     cat._id === categoryId ? response.data : cat

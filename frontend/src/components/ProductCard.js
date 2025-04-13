@@ -36,7 +36,7 @@ const ProductCard = ({ product, onDelete }) => {
             {/* Display Image */}
             {product.image && (
                 <img
-                    src={`http://localhost:5000/${product.image}`}  // Assuming image path is stored relative to the public folder
+                    src={`https://ims-3cdk.onrender.com/${product.image}`}  // Assuming image path is stored relative to the public folder
                     alt={product.name}
                     className="mb-3 w-auto h-20 object-cover "  // Smaller image size
                 />

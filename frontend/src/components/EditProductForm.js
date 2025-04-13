@@ -20,7 +20,7 @@ const EditProductForm = () => {
 
     useEffect(() => {
         if (productId) {
-            axios.get(`http://localhost:5000/products/${productId}`)
+            axios.get(`https://ims-3cdk.onrender.com/products/${productId}`)
                 .then((res) => {
                     setProduct(res.data);
                     setPreviewImage(res.data.image);
@@ -28,7 +28,7 @@ const EditProductForm = () => {
                 .catch((err) => console.error('Error fetching product:', err));
         }
 
-        axios.get('http://localhost:5000/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories')
             .then((res) => setCategories(res.data))
             .catch((err) => console.error('Error fetching categories:', err));
     }, [productId]);
@@ -42,7 +42,7 @@ const EditProductForm = () => {
         if (image) formData.append('image', image);
 
         try {
-            const res = await axios.put(`http://localhost:5000/products/${productId}`, formData, {
+            const res = await axios.put(`https://ims-3cdk.onrender.com/products/${productId}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             if (res.status === 200) navigate('/products');

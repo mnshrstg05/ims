@@ -17,7 +17,7 @@ const EditInventoryForm = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/products')
+        axios.get('https://ims-3cdk.onrender.com/products')
             .then(response => {
                 setProducts(response.data);
             })
@@ -25,7 +25,7 @@ const EditInventoryForm = () => {
                 console.error('Error fetching products:', error);
             });
 
-        axios.get(`http://localhost:5000/inventory/${id}`)
+        axios.get(`https://ims-3cdk.onrender.com/inventory/${id}`)
             .then(response => {
                 setProduct({
                     product: response.data.product?._id || '',
@@ -49,7 +49,7 @@ const EditInventoryForm = () => {
         }
 
         try {
-            await axios.put(`http://localhost:5000/inventory/${id}`, product);
+            await axios.put(`https://ims-3cdk.onrender.com/inventory/${id}`, product);
             navigate('/inventory');
         } catch (err) {
             setError('Error updating inventory item');

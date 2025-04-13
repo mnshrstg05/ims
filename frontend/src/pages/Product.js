@@ -11,7 +11,7 @@ const ProductPage = () => {
     useEffect(() => {
         // Use requestIdleCallback if available for smoother UX
         const loadData = () => {
-            axios.get('http://localhost:5000/products')
+            axios.get('https://ims-3cdk.onrender.com/products')
                 .then(response => {
                     setProducts(response.data);
                 })
@@ -33,7 +33,7 @@ const ProductPage = () => {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            await axios.delete(`http://localhost:5000/products/${productId}`);
+            await axios.delete(`https://ims-3cdk.onrender.com/products/${productId}`);
             setProducts(products.filter(product => product._id !== productId));
         } catch (error) {
             console.error('Error deleting product:', error);

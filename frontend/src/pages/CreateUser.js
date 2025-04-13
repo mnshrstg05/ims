@@ -24,7 +24,7 @@ const CreateUser = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/users', {
+      const response = await axios.post('https://ims-3cdk.onrender.com/users', {
         username,
         password,
         email,

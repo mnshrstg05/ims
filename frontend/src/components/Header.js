@@ -60,7 +60,7 @@ const Header = ({ setIsAuthenticated }) => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/users/change-password', {
+            const response = await fetch('https://ims-3cdk.onrender.com/users/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

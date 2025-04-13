@@ -13,7 +13,7 @@ const AddInventoryForm = () => {
     useEffect(() => {
         setDate(new Date());
 
-        axios.get('http://localhost:5000/products')
+        axios.get('https://ims-3cdk.onrender.com/products')
             .then(response => setProducts(response.data))
             .catch(error => console.error('Error fetching products:', error));
     }, []);
@@ -43,7 +43,7 @@ const AddInventoryForm = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/inventory', inventoryData, {
+            const response = await axios.post('https://ims-3cdk.onrender.com/inventory', inventoryData, {
                 headers: { 'Content-Type': 'application/json' },
             });
 

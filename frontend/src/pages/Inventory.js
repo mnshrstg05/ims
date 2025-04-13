@@ -10,7 +10,7 @@ const InventoryPage = () => {
 
     useEffect(() => {
         const loadInventory = () => {
-            axios.get('http://localhost:5000/inventory')
+            axios.get('https://ims-3cdk.onrender.com/inventory')
                 .then(response => {
                     setProducts(response.data);
                 })
@@ -35,7 +35,7 @@ const InventoryPage = () => {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`http://localhost:5000/inventory/${productId}`);
+            await axios.delete(`https://ims-3cdk.onrender.com/inventory/${productId}`);
             setProducts(products.filter(product => product._id !== productId));
         } catch (error) {
             console.error('Error deleting product:', error);

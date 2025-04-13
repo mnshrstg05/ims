@@ -17,7 +17,7 @@ const AddProductForm = () => {
     useEffect(() => {
         setDate(new Date());
 
-        axios.get('http://localhost:5000/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories')
             .then(response => setCategories(response.data))
             .catch(error => console.error('Error fetching categories:', error));
     }, []);
@@ -56,7 +56,7 @@ const AddProductForm = () => {
         formData.append('dateAdded', formatDate(date));
 
         try {
-            const response = await axios.post('http://localhost:5000/products', formData, {
+            const response = await axios.post('https://ims-3cdk.onrender.com/products', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
