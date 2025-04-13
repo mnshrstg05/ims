@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaTags, FaEdit, FaTrash,FaSave } from 'react-icons/fa';
+import { FaTags, FaEdit, FaTrash, FaSave } from 'react-icons/fa';
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState([]);
     const [newCategoryName, setNewCategoryName] = useState('');
     const [editingCategoryId, setEditingCategoryId] = useState(null);
     const [editingCategoryName, setEditingCategoryName] = useState('');
+    const [isMobile, setIsMobile] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true); // ✅ Replace with real login logic
 
+    // Handle mobile screen detection
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768); // Tailwind's md breakpoint
+        };
+
+        handleResize(); // Initial check
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Fetch categories from server
     useEffect(() => {
         axios.get('https://ims-3cdk.onrender.com/categories')
             .then(response => setCategories(response.data))
@@ -61,29 +75,33 @@ const CategoriesPage = () => {
                     <h1 className="text-3xl font-bold text-teal-500 mb-4 md:mb-0">
                         <span className="text-4xl text-purple-500"><FaTags /></span> Categories
                     </h1>
-                    <div className="flex items-center w-full md:w-auto space-x-2 overflow-hidden">
-                        <input
-                            type="text"
-                            className="flex-1 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-2 rounded-md"
-                            placeholder="New Category Name"
-                            value={newCategoryName}
-                            onChange={(e) => setNewCategoryName(e.target.value)}
-                        />
-                        <button
-                            onClick={handleAddCategory}
-                            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-all"
-                        >
-                            Add Category
-                        </button>
-                    </div>
+
+                    {/* Show Add Category input only if: on desktop OR on mobile & logged in */}
+                    {(!isMobile || (isMobile && isLoggedIn)) && (
+                        <div className="flex items-center w-full md:w-auto space-x-2 overflow-hidden">
+                            <input
+                                type="text"
+                                className="flex-1 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-2 rounded-md"
+                                placeholder="New Category Name"
+                                value={newCategoryName}
+                                onChange={(e) => setNewCategoryName(e.target.value)}
+                            />
+                            <button
+                                onClick={handleAddCategory}
+                                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition-all"
+                            >
+                                Add Category
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                     {categories.length > 0 ? (
                         categories.map(category => (
                             <div
                                 key={category._id}
-                                className="relative bg-gray-300 border p-4 text-gray-500 rounded shadow flex flex-col justify-between"
+                                className="relative bg-gray-300 border p-4 text-gray-700 rounded shadow flex flex-col justify-between"
                                 style={{ minHeight: "130px" }}
                             >
                                 {editingCategoryId === category._id ? (
