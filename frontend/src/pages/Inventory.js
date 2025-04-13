@@ -10,7 +10,7 @@ const InventoryPage = () => {
 
     useEffect(() => {
         const loadInventory = () => {
-            axios.get('https://ims-3cdk.onrender.com/inventory')
+            axios.get('https://ims-3cdk.onrender.com/inventory/all-inventory')
                 .then(response => {
                     setProducts(response.data);
                 })

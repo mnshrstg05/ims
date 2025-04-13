@@ -23,7 +23,7 @@ const CategoriesPage = () => {
 
     // Fetch categories from server
     useEffect(() => {
-        axios.get('https://ims-3cdk.onrender.com/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories/all-category')
             .then(response => setCategories(response.data))
             .catch(error => console.error('Error fetching categories:', error));
     }, []);

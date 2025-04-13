@@ -17,10 +17,10 @@ const Dashboard = () => {
                     categoriesResponse,
                     vouchersResponse
                 ] = await Promise.all([
-                    axios.get('https://ims-3cdk.onrender.com/products', {
+                    axios.get('https://ims-3cdk.onrender.com/products/all-products', {
                         headers: { 'Cache-Control': 'no-cache' }
                     }),
-                    axios.get('https://ims-3cdk.onrender.com/categories', {
+                    axios.get('https://ims-3cdk.onrender.com/categories/all-category', {
                         headers: { 'Cache-Control': 'no-cache' }
                     }),
                     axios.get('https://ims-3cdk.onrender.com/vouchers/get-vouchers', {
