@@ -18,7 +18,16 @@ const AddProductForm = () => {
         setDate(new Date());
 
         axios.get('https://ims-3cdk.onrender.com/categories')
-            .then(response => setCategories(response.data))
+            .then(response => {
+                console.log('Fetched categories:', response.data);
+
+                // Adjust according to response shape
+                const categoryData = Array.isArray(response.data)
+                    ? response.data
+                    : response.data.categories || [];
+
+                setCategories(categoryData);
+            })
             .catch(error => console.error('Error fetching categories:', error));
     }, []);
 
@@ -61,6 +70,7 @@ const AddProductForm = () => {
             });
 
             if (response.status === 201) {
+                // Reset form
                 setName('');
                 setDescription('');
                 setSku('');
@@ -139,10 +149,12 @@ const AddProductForm = () => {
                         required
                     >
                         <option value="">Select Category</option>
+                        {categories.length === 0 && (
+                            <option disabled>Loading categories...</option>
+                        )}
                         {Array.isArray(categories) && categories.map(cat => (
-    <option key={cat._id} value={cat._id}>{cat.name}</option>
-))}
-
+                            <option key={cat._id} value={cat._id}>{cat.name}</option>
+                        ))}
                     </select>
 
                     <input
@@ -153,25 +165,23 @@ const AddProductForm = () => {
                         required
                     />
 
-<div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
-    <button
-        type="submit"
-        className="w-full sm:w-auto bg-blue-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Update Product
-    </button>
-    <button
-        type="button"
-        onClick={() => navigate('/products')}
-        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Cancel
-    </button>
-</div>
-
+                    <div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
+                        <button
+                            type="submit"
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Update Product
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/products')}
+                            className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </form>
 
-                {/* Date Added */}
                 <div className="mt-6 text-center text-sm text-gray-500">
                     Product AddOn: {formatDate(date)}
                 </div>

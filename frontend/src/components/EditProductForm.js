@@ -19,6 +19,7 @@ const EditProductForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Fetch product details
         if (productId) {
             axios.get(`https://ims-3cdk.onrender.com/products/${productId}`)
                 .then((res) => {
@@ -28,24 +29,40 @@ const EditProductForm = () => {
                 .catch((err) => console.error('Error fetching product:', err));
         }
 
+        // Fetch categories
         axios.get('https://ims-3cdk.onrender.com/categories')
-            .then((res) => setCategories(res.data))
+            .then((res) => {
+                console.log('Fetched categories:', res.data);
+
+                const categoryData = Array.isArray(res.data)
+                    ? res.data
+                    : res.data.categories || [];
+
+                setCategories(categoryData);
+            })
             .catch((err) => console.error('Error fetching categories:', err));
     }, [productId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+
         for (const key in product) {
             formData.append(key, product[key]);
         }
-        if (image) formData.append('image', image);
+
+        if (image) {
+            formData.append('image', image);
+        }
 
         try {
             const res = await axios.put(`https://ims-3cdk.onrender.com/products/${productId}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            if (res.status === 200) navigate('/products');
+
+            if (res.status === 200) {
+                navigate('/products');
+            }
         } catch (err) {
             console.error('Error updating product:', err);
         }
@@ -65,14 +82,14 @@ const EditProductForm = () => {
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {[
+                    {[ // Dynamic fields
                         { label: 'Product Name', type: 'text', key: 'name', placeholder: 'Enter product name' },
                         { label: 'SKU', type: 'text', key: 'sku', placeholder: 'e.g. SKU-001' },
                         { label: 'Price', type: 'number', key: 'price', placeholder: 'e.g. 99.99' },
                         { label: 'Quantity', type: 'number', key: 'quantity', placeholder: 'e.g. 20' },
                     ].map(({ label, type, key, placeholder }) => (
                         <div key={key}>
-                            <label className="block  font-bold text-teal-700 mb-2">{label}</label>
+                            <label className="block font-bold text-teal-700 mb-2">{label}</label>
                             <input
                                 type={type}
                                 value={product[key]}
@@ -85,7 +102,7 @@ const EditProductForm = () => {
                     ))}
 
                     <div>
-                        <label className="block  font-bold text-teal-700 mb-1">Description</label>
+                        <label className="block font-bold text-teal-700 mb-1">Description</label>
                         <textarea
                             value={product.description}
                             placeholder="Product details..."
@@ -95,7 +112,7 @@ const EditProductForm = () => {
                     </div>
 
                     <div>
-                        <label className="block  font-bold text-teal-700 mb-1">Category</label>
+                        <label className="block font-bold text-teal-700 mb-1">Category</label>
                         <select
                             value={product.category}
                             onChange={(e) => setProduct({ ...product, category: e.target.value })}
@@ -103,15 +120,18 @@ const EditProductForm = () => {
                             required
                         >
                             <option value="">Select Category</option>
-                            {Array.isArray(categories) && categories.map(cat => (
-    <option key={cat._id} value={cat._id}>{cat.name}</option>
-))}
-
+                            {Array.isArray(categories) && categories.length > 0 ? (
+                                categories.map(cat => (
+                                    <option key={cat._id} value={cat._id}>{cat.name}</option>
+                                ))
+                            ) : (
+                                <option disabled>Loading categories...</option>
+                            )}
                         </select>
                     </div>
 
                     <div>
-                        <label className="block  font-bold text-teal-700 mb-1">Product Image</label>
+                        <label className="block font-bold text-teal-700 mb-1">Product Image</label>
                         <div className="flex items-center gap-3">
                             <FaImage className="text-indigo-500 text-xl" />
                             <input
@@ -131,21 +151,20 @@ const EditProductForm = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
-    <button
-        type="submit"
-        className="w-full sm:w-auto bg-indigo-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold flex items-center justify-center gap-2 transition"
-    >
-        <FaSave /> Save Changes
-    </button>
-    <button
-        type="button"
-        onClick={() => navigate('/products')}
-        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Cancel
-    </button>
-</div>
-
+                        <button
+                            type="submit"
+                            className="w-full sm:w-auto bg-indigo-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold flex items-center justify-center gap-2 transition"
+                        >
+                            <FaSave /> Save Changes
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/products')}
+                            className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
