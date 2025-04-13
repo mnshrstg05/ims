@@ -56,7 +56,7 @@ const AddProductForm = () => {
         formData.append('dateAdded', formatDate(date));
 
         try {
-            const response = await axios.post('https://ims-3cdk.onrender.com/products', formData, {
+            const response = await axios.post('https://ims-3cdk.onrender.com/products/create-product', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
