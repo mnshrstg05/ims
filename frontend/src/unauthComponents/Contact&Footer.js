@@ -9,17 +9,17 @@ const ContactSection = () => {
                     <div>
                         <h3 className="text-2xl font-semibold mb-4">Get in Touch</h3>
                         <p className="text-gray-400 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vehicula, urna ut finibus vehicula.</p>
-                        <p>Email: info@example.com</p>
+                        <p>Email: info@pfixs.com</p>
                         <p>Phone: +1234567890</p>
                     </div>
                     <div>
                         <h3 className="text-2xl font-semibold mb-4">Visit Us</h3>
-                        <p className="text-gray-400 mb-4">123 Main Street, City, Country</p>
+                        <p className="text-gray-400 mb-4">125-Guru Kripa george Town, Prayagraj, India</p>
                     </div>
                 </div>
             </div>
             <footer className='flex justify-center items-center w-2/3 m-auto mt-16 p-8 border-t border-gray-600'>
-                <p className="text-sm">&copy; 2024 IMS. All rights reserved.</p>
+                <p className="text-sm">&copy; 2025 KEYTRA IMS. All rights reserved.</p>
             </footer>
         </section>
     );

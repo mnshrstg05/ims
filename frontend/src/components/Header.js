@@ -19,11 +19,12 @@ const Header = ({ setIsAuthenticated }) => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.clear(); // removes everything
+       
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('userId');
         setIsAuthenticated(false); // This triggers rerender and shows login page
+        localStorage.clear(); // removes everything
         navigate('/login');
     };
     

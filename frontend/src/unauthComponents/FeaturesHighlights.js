@@ -21,8 +21,8 @@ const FeaturesHighlights = () => {
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <i className="fas fa-sync-alt text-3xl mb-4"></i>
-                            <h3 className="text-xl font-semibold mb-2">Integration</h3>
-                            <p>Seamlessly integrate with other business systems for enhanced efficiency.</p>
+                            <h3 className="text-xl font-semibold mb-2">Voucher</h3>
+                            <p>Seamlessly voucher creation of  stock for trcking record.</p>
                         </div>
                         {/* Additional Feature Cards */}
                         <div className="bg-white p-6 rounded-lg shadow-md">
@@ -32,13 +32,13 @@ const FeaturesHighlights = () => {
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <i className="fas fa-shopping-cart text-3xl mb-4"></i>
-                            <h3 className="text-xl font-semibold mb-2">Order Tracking</h3>
-                            <p>Track orders from placement to delivery for better customer service.</p>
+                            <h3 className="text-xl font-semibold mb-2">Stock Tracking</h3>
+                            <p>Track orders from stock to delivery for better customer service.</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <i className="fas fa-money-bill-wave text-3xl mb-4"></i>
-                            <h3 className="text-xl font-semibold mb-2">Transaction Management</h3>
-                            <p>Monitor and manage financial transactions seamlessly within the system.</p>
+                            <h3 className="text-xl font-semibold mb-2">Delivery Report</h3>
+                            <p>Track and print delivery report seamlessly within the system.</p>
                         </div>
                     </div>
                 </div>
