@@ -73,9 +73,6 @@ const updateInventory = async (req, res) => {
     }
 };
 
-module.exports = {
-    updateInventory,
-};
 
 // Delete an inventory item
 const deleteInventory = async (req, res) => {

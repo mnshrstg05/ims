@@ -28,7 +28,10 @@ const _dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://ims-3cdk.onrender.com', // Replace with your actual frontend URL
+    credentials: true
+  }));
 app.use(bodyParser.json());
 
 connectToDatabase();
