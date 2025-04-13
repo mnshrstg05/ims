@@ -19,14 +19,13 @@ const Header = ({ setIsAuthenticated }) => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.clear(); // removes everything
+        localStorage.clear();
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('userId');
-        setIsAuthenticated(false); // This triggers rerender and shows login page
+        setIsAuthenticated(false);
         navigate('/login');
     };
-    
 
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
@@ -49,7 +48,6 @@ const Header = ({ setIsAuthenticated }) => {
         const token = sessionStorage.getItem('authToken');
 
         if (!token) {
-            // console.log('No token found');
             setError('You are not authorized. Please log in again.');
             return;
         }
@@ -76,7 +74,7 @@ const Header = ({ setIsAuthenticated }) => {
 
             if (response.ok) {
                 alert('Password changed successfully! Please log in again.');
-                handleLogout(); // Force logout after password change
+                handleLogout();
             } else {
                 setError(data.message || 'Failed to change password.');
             }
@@ -87,15 +85,16 @@ const Header = ({ setIsAuthenticated }) => {
     };
 
     return (
-        <header className="bg-gray-200 px-4 py-6 flex justify-between items-center">
-            <div className="logo">
-            <h1 className="text-3xl text-gray-600 upercase font-bold">
-    Welcome {username ? `${username.toUpperCase()} 😊` : 'Guest'}
-</h1>
-
+        <header className="bg-gray-200 px-4 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            {/* Welcome message */}
+            <div className="text-center md:text-left w-full md:w-auto">
+                <h1 className="text-xl sm:text-2xl md:text-3xl text-gray-600 uppercase font-bold">
+                    Welcome {username ? `${username.toUpperCase()} 😊` : 'Guest'}
+                </h1>
             </div>
 
-            <div className="relative">
+            {/* Avatar and dropdown */}
+            <div className="relative self-center md:self-auto">
                 <div
                     onClick={toggleDropdown}
                     className="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center cursor-pointer"
@@ -130,65 +129,63 @@ const Header = ({ setIsAuthenticated }) => {
                         <h2 className="text-xl font-bold mb-4">Change Password</h2>
                         {error && <p className="text-red-500 mb-4">{error}</p>}
                         <form autoComplete="on">
-    {/* Hidden username field for accessibility and password managers */}
-    <input
-        type="text"
-        value={username}
-        readOnly
-        hidden
-        autoComplete="username"
-    />
-    <div className="mb-4">
-        <label className="block text-gray-700">Current Password</label>
-        <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter your current password"
-            autoComplete="current-password"
-        />
-    </div>
-    <div className="mb-4">
-        <label className="block text-gray-700">New Password</label>
-        <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter your new password"
-            autoComplete="new-password"
-        />
-    </div>
-    <div className="mb-4">
-        <label className="block text-gray-700">Confirm New Password</label>
-        <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Confirm your new password"
-            autoComplete="new-password"
-        />
-    </div>
-    <div className="flex justify-between">
-        <button
-            type="button"
-            onClick={closePasswordModal}
-            className="bg-gray-300 py-2 px-4 rounded-md"
-        >
-            Cancel
-        </button>
-        <button
-            type="button"
-            onClick={handleChangePassword}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md"
-        >
-            Change Password
-        </button>
-    </div>
-</form>
-
+                            <input
+                                type="text"
+                                value={username}
+                                readOnly
+                                hidden
+                                autoComplete="username"
+                            />
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Current Password</label>
+                                <input
+                                    type="password"
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Enter your current password"
+                                    autoComplete="current-password"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">New Password</label>
+                                <input
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Enter your new password"
+                                    autoComplete="new-password"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Confirm New Password</label>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Confirm your new password"
+                                    autoComplete="new-password"
+                                />
+                            </div>
+                            <div className="flex justify-between">
+                                <button
+                                    type="button"
+                                    onClick={closePasswordModal}
+                                    className="bg-gray-300 py-2 px-4 rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleChangePassword}
+                                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                                >
+                                    Change Password
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

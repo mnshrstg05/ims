@@ -1,116 +1,124 @@
 import React, { useState } from 'react';
 import loginImg from '../images/warehouse-management-software.png';
-import logoImg from '../images/logo.webp'
+import logoImg from '../images/logo.webp';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const LoginForm = ({ setIsAuthenticated }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        try {
-            const response = await axios.post('https://ims-3cdk.onrender.com/users/login', { username, password });
-    
-            if (response.data.token) {
-                sessionStorage.setItem('authToken', response.data.token);
-                sessionStorage.setItem('username', username);
-                setIsAuthenticated(true);
-                navigate('/dashboard');
-            }
-        } catch (err) {
-            // console.log(err.response.data);  // Log the full error response for debugging
-            setError('Invalid username or password');
-        }
-    };
-    
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    return (
-        <div>
-            <div className='fixed w-screen py-4 px-2 bg-gray-900 text-white flex justify-between'>
-                <div className='container mx-auto flex items-center'>
-                    <h1 className="text-2xl md:text-4xl font-semibold">Inventory System</h1>
-                </div>
-            </div>
+    try {
+      const response = await axios.post('https://ims-3cdk.onrender.com/users/login', { username, password });
 
-            {/* Flexbox container for image and form */}
-            <div className="flex flex-col sm:flex-row h-screen">
-                {/* Left section with image */}
-                <div className="w-full sm:w-1/2 bg-gray-200 flex justify-center items-center p-4">
-                    <img src={loginImg} alt="Login" className="w-full sm:max-w-none sm:h-full object-cover" />
-                </div>
+      if (response.data.token) {
+        sessionStorage.setItem('authToken', response.data.token);
+        sessionStorage.setItem('username', username);
+        setIsAuthenticated(true);
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      setError('Invalid username or password');
+    }
+  };
 
-                {/* Right section with form */}
-                <div className="w-full sm:w-1/2 flex justify-center items-center p-4">
-                    <div className="w-full sm:w-3/4 max-w-2xl p-8 bg-white rounded-lg shadow-lg">
-                    <div className="flex items-center justify-center">
-  <div className="bg-teal-500 rounded-full p-1 mb-4">
-    <img 
-      src={logoImg} 
-      alt="Login" 
-      className="h-20 w-56 object-cover rounded" 
-    />
-  </div>
-</div>
-
-
-                        <h2 className="text-2xl font-bold text-gray-500 mb-6 text-center">User Login</h2>
-                        {error && <p className="text-red-500 mb-4">{error}</p>}
-                        <form className="space-y-4" onSubmit={handleSubmit}>
-                            {/* Username input */}
-                            <div className="flex items-center border rounded-lg">
-                                <span className="px-3">
-                                    <i className="fa fa-user text-gray-500"></i>
-                                </span>
-                                <input
-                                    type="text"
-                                    placeholder="Username"
-                                    className="w-full py-3 px-4 outline-none"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    autoComplete="username"  // Added autocomplete attribute
-                                />
-                            </div>
-
-                            {/* Password input */}
-                            <div className="flex items-center border rounded-lg">
-                                <span className="px-3">
-                                    <i className="fa fa-lock text-gray-500"></i>
-                                </span>
-                                <input
-                                    type="password"
-                                    placeholder="Password"
-                                    className="w-full py-3 px-4 outline-none"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    autoComplete="current-password"  // Added autocomplete attribute
-                                />
-                            </div>
-
-                            {/* Login button */}
-                            <button type="submit" className="w-full py-3 bg-blue-400 hover:bg-green-600 text-white rounded-lg hover:bg-blue-600 transition duration-300">
-                                Login
-                            </button>
-
-                            {/* Sign Up link with margin */}
-                            <div className="text-center mt-4">
-                                <a href='/signup'>
-                                    <span className="text-blue-500 cursor-pointer">
-                                        Sign Up for New User
-                                    </span>
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="min-h-screen w-full bg-white">
+      {/* Header */}
+      <div className="fixed top-0 w-full py-4 px-4 bg-gray-900 text-white z-50 shadow-md">
+        <div className="container mx-auto flex items-center justify-center md:justify-start">
+          <h1 className="text-2xl md:text-3xl font-semibold">Inventory System</h1>
         </div>
-    );
+      </div>
+
+      {/* Main Content */}
+      <div className="pt-20 flex flex-col md:flex-row min-h-[90vh] md:min-h-[calc(100vh-5rem)] overflow-y-auto">
+        {/* Image Section */}
+        <div className="w-full md:w-1/2 bg-gray-200 flex justify-center items-center py-6">
+          <img
+            src={loginImg}
+            alt="Login"
+            className="w-4/5 max-w-xs md:max-w-md lg:max-w-lg object-cover"
+          />
+        </div>
+
+        {/* Form Section */}
+        <div className="w-full md:w-1/2 flex justify-center items-center py-6 px-4 sm:px-8">
+          <div className="w-full max-w-lg bg-gray-100 p-6 sm:p-8 rounded-lg shadow-lg">
+            <div className="flex items-center justify-center">
+              <div className="bg-teal-500 rounded-full p-1 mb-4">
+                <img
+                  src={logoImg}
+                  alt="Logo"
+                  className="h-20 w-56 object-cover rounded"
+                />
+              </div>
+            </div>
+
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-600 text-center mb-6">
+              User Login
+            </h2>
+
+            {error && (
+              <p className="text-sm text-center bg-red-500 text-white p-2 rounded mb-4">
+                {error}
+              </p>
+            )}
+
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* Username */}
+              <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
+                <i className="fa fa-user text-gray-500 mr-2"></i>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  className="w-full bg-transparent outline-none"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="username"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
+                <i className="fa fa-lock text-gray-500 mr-2"></i>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full bg-transparent outline-none"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+              </div>
+
+              {/* Button */}
+              <button
+                type="submit"
+                className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 shadow-md"
+              >
+                Login
+              </button>
+
+              <div className="text-center mt-4">
+                <a href="/signup" className="text-sm text-blue-600 hover:underline">
+                  Don’t have an account? Sign Up
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default LoginForm;
