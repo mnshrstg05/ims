@@ -11,7 +11,7 @@ const ProductPage = () => {
     useEffect(() => {
         // Use requestIdleCallback if available for smoother UX
         const loadData = () => {
-            axios.get('https://ims-3cdk.onrender.com/products')
+            axios.get('https://ims-3cdk.onrender.com/products/all-products')
                 .then(response => {
                     setProducts(response.data);
                 })
