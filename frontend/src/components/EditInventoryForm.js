@@ -17,14 +17,18 @@ const EditInventoryForm = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('https://ims-3cdk.onrender.com/products')
+        // Fetch products
+        axios.get('https://ims-3cdk.onrender.com/products/all-products')
             .then(response => {
-                setProducts(response.data);
+                // Ensure response.data is an array
+                setProducts(Array.isArray(response.data) ? response.data : []);
             })
             .catch(error => {
                 console.error('Error fetching products:', error);
+                setError('Failed to load products');
             });
 
+        // Fetch inventory item
         axios.get(`https://ims-3cdk.onrender.com/inventory/${id}`)
             .then(response => {
                 setProduct({
@@ -80,7 +84,7 @@ const EditInventoryForm = () => {
                             required
                         >
                             <option value="">Select Product</option>
-                            {products.length > 0 ? (
+                            {Array.isArray(products) && products.length > 0 ? (
                                 products.map((item) => (
                                     <option key={item._id} value={item._id}>{item.name}</option>
                                 ))
@@ -105,7 +109,7 @@ const EditInventoryForm = () => {
 
                     {/* Quantity Out of Stock */}
                     <div>
-                        <label className="blocktext-1xl font-bold text-teal-600 mb-2">Quantity Out of Stock</label>
+                        <label className="block text-1xl font-bold text-teal-600 mb-2">Quantity Out of Stock</label>
                         <input
                             type="number"
                             value={product.quantityOutStock}
@@ -118,20 +122,20 @@ const EditInventoryForm = () => {
 
                     {/* Submit Button */}
                     <div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
-    <button
-        type="submit"
-        className="w-full sm:w-auto bg-indigo-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold flex items-center justify-center gap-2 transition"
-    >
-        <FaSave /> Update Inventory
-    </button>
-    <button
-        type="button"
-        onClick={() => navigate('/inventory')}
-        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Cancel
-    </button>
-</div>
+                        <button
+                            type="submit"
+                            className="w-full sm:w-auto bg-indigo-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold flex items-center justify-center gap-2 transition"
+                        >
+                            <FaSave /> Update Inventory
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/inventory')}
+                            className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Cancel
+                        </button>
+                    </div>
 
                 </form>
             </div>

@@ -13,9 +13,22 @@ const AddInventoryForm = () => {
     useEffect(() => {
         setDate(new Date());
 
-        axios.get('https://ims-3cdk.onrender.com/products')
-            .then(response => setProducts(response.data))
-            .catch(error => console.error('Error fetching products:', error));
+        axios.get('https://ims-3cdk.onrender.com/products/all-products')
+            .then(response => {
+                const data = response.data;
+                if (Array.isArray(data)) {
+                    setProducts(data);
+                } else if (Array.isArray(data.products)) {
+                    setProducts(data.products);
+                } else {
+                    console.error("Unexpected response format:", data);
+                    setProducts([]); // Prevent app crash
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                setProducts([]);
+            });
     }, []);
 
     const formatDate = (date) => {
@@ -67,10 +80,9 @@ const AddInventoryForm = () => {
     };
 
     return (
-        <div className="min-h-auto  bg-gray-100 flex items-center justify-center px-4" >
-            <div className="w-full max-w-4xl  bg-gray-300 shadow-xl rounded-2xl p-8 border border-gray-100">
+        <div className="min-h-auto bg-gray-100 flex items-center justify-center px-4">
+            <div className="w-full max-w-4xl bg-gray-300 shadow-xl rounded-2xl p-8 border border-gray-100">
                 <h2 className="text-2xl font-bold text-center text-yellow-600 mb-8">Add New Inventory Item</h2>
-
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <select
                         value={product}
@@ -108,22 +120,21 @@ const AddInventoryForm = () => {
                         required
                     />
 
-<div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
-    <button
-        type="submit"
-        className="w-full sm:w-auto bg-blue-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Add Inventory
-    </button>
-    <button
-        type="button"
-        onClick={() => navigate('/inventory')}
-        className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
-    >
-        Cancel
-    </button>
-</div>
-
+                    <div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0 mt-6">
+                        <button
+                            type="submit"
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-green-700 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Add Inventory
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/inventory')}
+                            className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-md font-semibold transition"
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </form>
 
                 <div className="mt-6 text-center text-sm text-gray-500">
