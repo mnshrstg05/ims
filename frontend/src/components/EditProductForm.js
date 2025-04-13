@@ -103,9 +103,10 @@ const EditProductForm = () => {
                             required
                         >
                             <option value="">Select Category</option>
-                            {categories.map((cat) => (
-                                <option key={cat._id} value={cat._id}>{cat.name}</option>
-                            ))}
+                            {Array.isArray(categories) && categories.map(cat => (
+    <option key={cat._id} value={cat._id}>{cat.name}</option>
+))}
+
                         </select>
                     </div>
 
