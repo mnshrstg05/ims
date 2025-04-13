@@ -17,7 +17,7 @@ const AddProductForm = () => {
     useEffect(() => {
         setDate(new Date());
 
-        axios.get('https://ims-3cdk.onrender.com/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories/all-category')
             .then(response => {
                 console.log('Fetched categories:', response.data);
 

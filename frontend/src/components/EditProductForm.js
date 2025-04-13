@@ -30,7 +30,7 @@ const EditProductForm = () => {
         }
 
         // Fetch categories
-        axios.get('https://ims-3cdk.onrender.com/categories')
+        axios.get('https://ims-3cdk.onrender.com/categories/all-category')
             .then((res) => {
                 console.log('Fetched categories:', res.data);
 
