@@ -57,7 +57,7 @@ const App = () => {
                   <Route path="/categories" element={<CategoriesPage />} />
                   <Route path="/vouchers" element={<VoucherPage />} />
                   <Route path="/delivery-report" element={<DeliveryReport />} />
-                  <Route path="/" element={<Navigate to="/dashboard" />} />
+                
                 </Routes>
               </main>
               <Footer />
