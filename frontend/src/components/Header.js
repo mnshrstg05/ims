@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [dropdownTimer, setDropdownTimer] = useState(null);
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,6 +19,13 @@ const Header = ({ setIsAuthenticated }) => {
             setUsername(storedUsername);
         }
     }, []);
+
+    useEffect(() => {
+        // Cleanup on unmount
+        return () => {
+            if (dropdownTimer) clearTimeout(dropdownTimer);
+        };
+    }, [dropdownTimer]);
 
     const handleLogout = () => {
         sessionStorage.removeItem('authToken');
@@ -28,7 +37,19 @@ const Header = ({ setIsAuthenticated }) => {
     };
 
     const toggleDropdown = () => {
-        setDropdownVisible(!dropdownVisible);
+        if (dropdownVisible) {
+            setDropdownVisible(false);
+            if (dropdownTimer) clearTimeout(dropdownTimer);
+            return;
+        }
+
+        setDropdownVisible(true);
+
+        const timer = setTimeout(() => {
+            setDropdownVisible(false);
+        }, 3000); // Auto-close after 3 seconds
+
+        setDropdownTimer(timer);
     };
 
     const openPasswordModal = () => {
@@ -75,7 +96,6 @@ const Header = ({ setIsAuthenticated }) => {
             if (response.ok) {
                 alert('Password changed successfully! Please log in again.');
 
-                // Auto-close modal and logout after 2.5 seconds
                 setTimeout(() => {
                     closePasswordModal();
                     handleLogout();
