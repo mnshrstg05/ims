@@ -8,29 +8,21 @@ const LeftNav = () => {
     const location = useLocation();
 
     // Toggle for large screen collapse
-    const toggleCollapse = () => {
-        setCollapsed(!collapsed);
-    };
+    const toggleCollapse = () => setCollapsed(!collapsed);
 
     // Toggle for mobile nav visibility
-    const toggleMobileNav = () => {
-        setShowMobileNav(!showMobileNav);
-    };
+    const toggleMobileNav = () => setShowMobileNav(!showMobileNav);
 
     const handleResize = () => {
         const mobile = window.innerWidth <= 768;
         setIsMobile(mobile);
-        if (!mobile) {
-            setShowMobileNav(false); // Hide mobile nav when resizing to desktop
-        }
+        if (!mobile) setShowMobileNav(false);
     };
 
     useEffect(() => {
         handleResize();
         window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const isActive = (path) => location.pathname.startsWith(path);
@@ -49,11 +41,11 @@ const LeftNav = () => {
 
             {/* Sidebar */}
             <nav
-                className={`bg-gray-800 text-white h-full z-40
-                ${isMobile
-                    ? `fixed top-0 left-0 transition-transform duration-300 ease-in-out
-                       ${showMobileNav ? 'translate-x-0' : '-translate-x-full'} w-64`
-                    : `lg:w-[15%] sm:w-40 ${collapsed ? 'w-20' : 'w-64'} transition-all duration-300`}
+                className={`bg-gray-800 text-white z-40 flex flex-col
+                    ${isMobile
+                        ? `fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out
+                           ${showMobileNav ? 'translate-x-0' : '-translate-x-full'} w-64`
+                        : `${collapsed ? 'w-20' : 'w-64'} h-screen transition-all duration-300`}
                 `}
             >
                 {/* Header */}
@@ -61,12 +53,11 @@ const LeftNav = () => {
                     <h1 className={`text-2xl font-bold ${collapsed && !isMobile ? 'hidden' : ''}`}>
                         KEYTRA IMS
                     </h1>
-                    {!isMobile && (
+                    {!isMobile ? (
                         <button onClick={toggleCollapse} className="focus:outline-none">
                             {collapsed ? <i className="fas fa-bars"></i> : <i className="fas fa-chevron-left"></i>}
                         </button>
-                    )}
-                    {isMobile && (
+                    ) : (
                         <button onClick={toggleMobileNav} className="focus:outline-none">
                             <i className="fas fa-times"></i>
                         </button>
@@ -74,7 +65,7 @@ const LeftNav = () => {
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="py-2 text-black overflow-y-auto flex-1">
+                <div className="py-2 text-white overflow-y-auto flex-1">
                     <ul>
                         {[
                             { to: '/dashboard', icon: 'fa-house', label: 'Dashboard' },
@@ -87,8 +78,8 @@ const LeftNav = () => {
                             <li key={to}>
                                 <Link
                                     to={to}
-                                    onClick={() => isMobile && setShowMobileNav(false)} // Auto-close on mobile
-                                    className={`block m-4 p-4 hover:bg-gray-800 rounded-xl hover:text-white 
+                                    onClick={() => isMobile && setShowMobileNav(false)}
+                                    className={`block m-4 p-4 rounded-xl hover:bg-gray-700 transition-all
                                         ${isActive(to) ? 'bg-gray-900 text-white font-bold' : ''}
                                         ${collapsed && !isMobile ? 'text-center' : ''}
                                     `}
@@ -99,7 +90,7 @@ const LeftNav = () => {
                             </li>
                         ))}
                     </ul>
-                </nav>
+                </div>
             </nav>
 
             {/* Optional Overlay for Mobile */}

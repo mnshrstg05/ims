@@ -45,7 +45,7 @@ const InventoryPage = () => {
     return (
         <div className="p-6">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-                <h1 className="text-3xl text-teal-600 font-semibold">Inventory Tracker</h1>
+                <h1 className="text-3xl text-teal-600 font-bold">Inventory Tracker</h1>
                 <Link
                     to="/inventory/add-product"
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"

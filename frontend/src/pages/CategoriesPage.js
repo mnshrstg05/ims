@@ -10,10 +10,10 @@ const CategoriesPage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(true); // ✅ Replace with real login logic
 
-    // Handle mobile screen detection
+    // Detect screen size
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768); // Tailwind's md breakpoint
+            setIsMobile(window.innerWidth < 768);
         };
 
         handleResize(); // Initial check
@@ -71,14 +71,14 @@ const CategoriesPage = () => {
     return (
         <div className="min-h-screen bg-gray-100 p-6">
             <div className="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
-                <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-                    <h1 className="text-3xl font-bold text-teal-500 mb-4 md:mb-0">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
+                    <h1 className="text-3xl font-bold text-teal-500">
                         <span className="text-4xl text-purple-500"><FaTags /></span> Categories
                     </h1>
 
                     {/* Show Add Category input only if: on desktop OR on mobile & logged in */}
                     {(!isMobile || (isMobile && isLoggedIn)) && (
-                        <div className="flex items-center w-full md:w-auto space-x-2 overflow-hidden">
+                        <div className="flex flex-col sm:flex-row w-full md:w-auto gap-2">
                             <input
                                 type="text"
                                 className="flex-1 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-2 rounded-md"
