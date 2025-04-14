@@ -19,33 +19,30 @@ import DeliveryReport from './pages/DeliveryReport';
 
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
-import CreateUser from './pages/CreateUser'
+import CreateUser from './pages/CreateUser';
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Try to load auth state from localStorage on initial load
-    const storedAuth = localStorage.getItem('isAuthenticated');
-    return storedAuth === 'true';
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // 🔥 Added missing state
 
   useEffect(() => {
     const verifyToken = async () => {
       const token = sessionStorage.getItem('authToken');
-  
+
       if (!token) {
         setIsAuthenticated(false);
         setLoading(false);
         return;
       }
-  
+
       try {
-        const response = await fetch('http://localhost:5000/auth/check', {
+        const response = await fetch('https://ims-3cdk.onrender.com/auth/check', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.ok) {
           setIsAuthenticated(true);
         } else {
@@ -60,11 +57,11 @@ const App = () => {
         setLoading(false);
       }
     };
-  
+
     verifyToken();
   }, []);
-  
- 
+
+  if (loading) return <div className="text-center mt-20 text-lg">Checking session...</div>; // 🔥 Prevents jump to login
 
   return (
     <Router>
@@ -86,7 +83,7 @@ const App = () => {
                   <Route path="/categories" element={<CategoriesPage />} />
                   <Route path="/vouchers" element={<VoucherPage />} />
                   <Route path="/delivery-report" element={<DeliveryReport />} />
-                
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
               </main>
               <Footer />
@@ -103,7 +100,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
-
+};
 
 export default App;
