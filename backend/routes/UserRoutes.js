@@ -1,21 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/UserController');
-// const {changePassword} = require('../controllers/UserController');
 const { loginUser } = require('../controllers/authController');
-const authmiddleware = require('../middleware/authMiddleware')
+const authMiddleware = require('../middleware/authMiddleware');
 
-// Routes for users
-router.get('/', userController.getAllUsers);
-router.get('/:id', userController.getUserById);
-router.post('/', userController.createUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-
-// Route for login (newly added)
+// Public
 router.post('/login', loginUser);
 
-// Other routes (getAllUsers, getUserById, etc.)
-router.post('/change-password',authmiddleware, userController.changePassword);
+// Protected
+router.get('/', authMiddleware, userController.getAllUsers);
+router.get('/:id', authMiddleware, userController.getUserById);
+router.post('/', userController.createUser);
+router.put('/:id', authMiddleware, userController.updateUser);
+router.delete('/:id', authMiddleware, userController.deleteUser);
+router.post('/change-password', authMiddleware, userController.changePassword);
 
 module.exports = router;

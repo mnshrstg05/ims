@@ -29,13 +29,42 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Save to localStorage whenever isAuthenticated changes
-    localStorage.setItem('isAuthenticated', isAuthenticated);
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    // console.log("Current Location:", window.location.pathname);
+    const verifyToken = async () => {
+      const token = sessionStorage.getItem('authToken');
+  
+      if (!token) {
+        setIsAuthenticated(false);
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const response = await fetch('http://localhost:5000/auth/check', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.ok) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+          sessionStorage.removeItem('authToken');
+        }
+      } catch (err) {
+        console.error('Auth check failed:', err);
+        setIsAuthenticated(false);
+        sessionStorage.removeItem('authToken');
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    verifyToken();
   }, []);
+  
+ 
 
   return (
     <Router>

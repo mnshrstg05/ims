@@ -16,6 +16,7 @@ const userRoutes = require('./routes/UserRoutes');
 const categoryRoutes = require('./routes/CategoryRoutes'); 
 const inventoryRoutes = require('./routes/InventoryRoutes'); 
 const voucherRoutes = require('./routes/VoucherRoutes');
+const authenticateUser = require('./middleware/authMiddleware');
 
 
 const app = express();
@@ -43,6 +44,9 @@ app.use('/categories', categoryRoutes);
 app.use('/inventory', inventoryRoutes); 
 app.use('/vouchers', voucherRoutes); 
 
+app.get('/auth/check', authenticateUser, (req, res) => {
+    res.json({ authenticated: true, userId: req.userId });
+  });
 
 app.use(express.static(path.join(_dirname, "/frontend/build")));
 
