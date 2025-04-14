@@ -57,7 +57,7 @@ const Dashboard = () => {
         <div className="flex flex-col">
             <div className="flex flex-1">
                 <main className="flex-1 p-6 transition-opacity duration-300 ease-in">
-                    <h1 className="text-3xl font-semibold mb-4 text-teal-600">Dashboard</h1>
+                    <h1 className="text-3xl font-bold mb-4 text-teal-700">Dashboard</h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <StatCard icon={<FaBox />} title="Total Products" value={totalProducts} to="/products" color="text-blue-500" />

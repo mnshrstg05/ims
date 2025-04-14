@@ -185,7 +185,7 @@ const InventoryDeliveryVoucher = () => {
 
                 {/* Receiver Details */}
                 <div className="space-y-4">
-                    <h3 className="font-semibold text-lg text-teal-700">Receiver's Details</h3>
+                    <h3 className="font-semibold text-lg text-teal-700">Deliver's Details</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <input
                             type="text"
