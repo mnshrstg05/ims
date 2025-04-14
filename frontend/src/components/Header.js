@@ -92,7 +92,7 @@ const Header = ({ setIsAuthenticated }) => {
     return (
         <>
             {/* Header */}
-            <header className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-4 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+            <header className="bg-gradient-to-r from-teal-400 via-white-200 to-teal-600 text-white px-4 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
                 <div className="flex items-center gap-3">
                     <button className="md:hidden text-2xl">☰</button>
                     <h1 className="text-lg sm:text-xl font-semibold uppercase tracking-wide">
