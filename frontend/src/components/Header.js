@@ -19,15 +19,13 @@ const Header = ({ setIsAuthenticated }) => {
     }, []);
 
     const handleLogout = () => {
-       
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('userId');
-        setIsAuthenticated(false); // This triggers rerender and shows login page
-        localStorage.clear(); // removes everything
+        setIsAuthenticated(false);
+        localStorage.clear();
         navigate('/login');
     };
-    
 
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
@@ -50,7 +48,6 @@ const Header = ({ setIsAuthenticated }) => {
         const token = sessionStorage.getItem('authToken');
 
         if (!token) {
-            // console.log('No token found');
             setError('You are not authorized. Please log in again.');
             return;
         }
@@ -77,7 +74,12 @@ const Header = ({ setIsAuthenticated }) => {
 
             if (response.ok) {
                 alert('Password changed successfully! Please log in again.');
-                handleLogout(); // Force logout after password change
+
+                // Auto-close modal and logout after 2.5 seconds
+                setTimeout(() => {
+                    closePasswordModal();
+                    handleLogout();
+                }, 2500);
             } else {
                 setError(data.message || 'Failed to change password.');
             }
@@ -88,112 +90,108 @@ const Header = ({ setIsAuthenticated }) => {
     };
 
     return (
-        <header className="bg-gray-200 px-4 py-6 flex justify-between items-center">
-            <div className="logo">
-            <h1 className="text-3xl text-gray-600 upercase font-bold">
-    Welcome {username ? `${username.toUpperCase()} 😊` : 'Guest'}
-</h1>
-
-            </div>
-
-            <div className="relative">
-                <div
-                    onClick={toggleDropdown}
-                    className="w-10 h-10 rounded-full bg-gray-500 text-white flex items-center justify-center cursor-pointer"
-                >
-                    {username ? username.charAt(0).toUpperCase() : 'G'}
+        <>
+            {/* Header */}
+            <header className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-4 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+                <div className="flex items-center gap-3">
+                    <button className="md:hidden text-2xl">☰</button>
+                    <h1 className="text-lg sm:text-xl font-semibold uppercase tracking-wide">
+                        Welcome {username ? `${username.toUpperCase()} 😊` : 'Guest'}
+                    </h1>
                 </div>
 
-                {dropdownVisible && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                        <ul className="p-2">
-                            <li
-                                onClick={openPasswordModal}
-                                className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                            >
-                                Change Password
-                            </li>
-                            <li
-                                onClick={handleLogout}
-                                className="py-2 px-4 hover:bg-gray-100 cursor-pointer text-red-500"
-                            >
-                                Logout
-                            </li>
-                        </ul>
+                <div className="relative">
+                    <div
+                        onClick={toggleDropdown}
+                        className="w-10 h-10 rounded-full border-2 border-white bg-white/20 text-white flex items-center justify-center font-bold cursor-pointer hover:bg-white/30 transition"
+                    >
+                        {username ? username.charAt(0).toUpperCase() : 'G'}
                     </div>
-                )}
-            </div>
 
-            {/* Password Change Modal */}
+                    {dropdownVisible && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 border rounded-lg shadow-lg z-50 animate-fade-in">
+                            <ul className="p-2 space-y-1">
+                                <li
+                                    onClick={openPasswordModal}
+                                    className="py-2 px-4 hover:bg-gray-100 cursor-pointer rounded"
+                                >
+                                    Change Password
+                                </li>
+                                <li
+                                    onClick={handleLogout}
+                                    className="py-2 px-4 hover:bg-red-100 text-red-600 cursor-pointer rounded"
+                                >
+                                    Logout
+                                </li>
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </header>
+
+            {/* Password Modal */}
             {isPasswordModalOpen && (
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-md w-96 max-w-full mx-4">
                         <h2 className="text-xl font-bold mb-4">Change Password</h2>
                         {error && <p className="text-red-500 mb-4">{error}</p>}
                         <form autoComplete="on">
-    {/* Hidden username field for accessibility and password managers */}
-    <input
-        type="text"
-        value={username}
-        readOnly
-        hidden
-        autoComplete="username"
-    />
-    <div className="mb-4">
-        <label className="block text-gray-700">Current Password</label>
-        <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter your current password"
-            autoComplete="current-password"
-        />
-    </div>
-    <div className="mb-4">
-        <label className="block text-gray-700">New Password</label>
-        <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter your new password"
-            autoComplete="new-password"
-        />
-    </div>
-    <div className="mb-4">
-        <label className="block text-gray-700">Confirm New Password</label>
-        <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Confirm your new password"
-            autoComplete="new-password"
-        />
-    </div>
-    <div className="flex justify-between">
-        <button
-            type="button"
-            onClick={closePasswordModal}
-            className="bg-gray-300 py-2 px-4 rounded-md"
-        >
-            Cancel
-        </button>
-        <button
-            type="button"
-            onClick={handleChangePassword}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md"
-        >
-            Change Password
-        </button>
-    </div>
-</form>
+                            <input type="text" value={username} readOnly hidden autoComplete="username" />
 
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Current Password</label>
+                                <input
+                                    type="password"
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Enter your current password"
+                                    autoComplete="current-password"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">New Password</label>
+                                <input
+                                    type="password"
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Enter your new password"
+                                    autoComplete="new-password"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-gray-700">Confirm New Password</label>
+                                <input
+                                    type="password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    placeholder="Confirm your new password"
+                                    autoComplete="new-password"
+                                />
+                            </div>
+                            <div className="flex justify-between">
+                                <button
+                                    type="button"
+                                    onClick={closePasswordModal}
+                                    className="bg-gray-300 py-2 px-4 rounded-md"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleChangePassword}
+                                    className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                                >
+                                    Change Password
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
-        </header>
+        </>
     );
 };
 
