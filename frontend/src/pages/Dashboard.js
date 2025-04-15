@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaBox, FaTags } from 'react-icons/fa';
-import Inventory from '../../../backend/models/InventoryModel';
+
 
 const Dashboard = () => {
     const [totalProducts, setTotalProducts] = useState(() => Number(localStorage.getItem('totalProducts')) || 0);
