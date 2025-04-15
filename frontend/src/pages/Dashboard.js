@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaBox, FaTags } from 'react-icons/fa';
+import Inventory from '../../../backend/models/InventoryModel';
 
 const Dashboard = () => {
     const [totalProducts, setTotalProducts] = useState(() => Number(localStorage.getItem('totalProducts')) || 0);
     const [totalCategories, setTotalCategories] = useState(() => Number(localStorage.getItem('totalCategories')) || 0);
-    const [totalDeliveryReports, setTotalDeliveryReports] = useState(() => Number(localStorage.getItem('totalDeliveryReports')) || 0);
+    const [totalInventoryReports, setTotalInventoryReports] = useState(() => Number(localStorage.getItem('totalInventoryReports')) || 0);
     const [totalVouchers, setTotalVouchers] = useState(() => Number(localStorage.getItem('totalVouchers')) || 0);
 
     useEffect(() => {
@@ -15,7 +16,8 @@ const Dashboard = () => {
                 const [
                     productsResponse,
                     categoriesResponse,
-                    vouchersResponse
+                    vouchersResponse,
+                    inventoryResponse
                 ] = await Promise.all([
                     axios.get('https://ims-3cdk.onrender.com/products/all-products', {
                         headers: { 'Cache-Control': 'no-cache' }
@@ -26,22 +28,26 @@ const Dashboard = () => {
                     axios.get('https://ims-3cdk.onrender.com/vouchers/get-vouchers', {
                         headers: { 'Cache-Control': 'no-cache' }
                     }),
+                    axios.get('https://ims-3cdk.onrender.com/inventory/all-inventory', {
+                        headers: { 'Cache-Control': 'no-cache' }
+                    }),
                 ]);
 
                 const totalProducts = productsResponse.data.length;
                 const totalCategories = categoriesResponse.data.length;
                 const totalVouchers = vouchersResponse.data.length;
+                const totalInventory = inventoryResponse.data.length;
 
                 // Update state
                 setTotalProducts(totalProducts);
                 setTotalCategories(totalCategories);
-                setTotalDeliveryReports(totalVouchers);
+                setTotalInventoryReports(totalInventory);
                 setTotalVouchers(totalVouchers);
 
                 // Cache data
                 localStorage.setItem('totalProducts', totalProducts);
                 localStorage.setItem('totalCategories', totalCategories);
-                localStorage.setItem('totalDeliveryReports', totalVouchers);
+                localStorage.setItem('totalInventoryReports', totalInventory);
                 localStorage.setItem('totalVouchers', totalVouchers);
 
             } catch (err) {
@@ -62,15 +68,15 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <StatCard icon={<FaBox />} title="Total Products" value={totalProducts} to="/products" color="text-blue-500" />
                         <StatCard icon={<FaTags />} title="Total Categories" value={totalCategories} to="/categories" color="text-purple-500" />
-                        <StatCard icon={<FaBox />} title="Delivery Report" value={totalDeliveryReports} to="/delivery-report" color="text-teal-500" />
+                        <StatCard icon={<FaBox />} title="Inventory Report" value={totalInventoryReports} to="/inventory" color="text-teal-500" />
                         <StatCard icon={<FaTags />} title="Voucher" value={totalVouchers} to="/vouchers" color="text-orange-500" />
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow-lg">
-                        <h2 className="text-xl font-semibold mb-4">Voucher Status</h2>
+                        <h2 className="text-xl font-semibold mb-4">Voucher's Status</h2>
                         <p className="text-3xl font-bold">{totalVouchers}</p>
                         <Link to="/delivery-report" className="text-blue-500 hover:underline mt-4 block">
-                            View all vouchers
+                            View all delivery reports
                         </Link>
                     </div>
                 </main>
