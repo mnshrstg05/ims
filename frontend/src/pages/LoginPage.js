@@ -7,6 +7,7 @@ import axios from 'axios';
 const LoginForm = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
@@ -86,11 +87,11 @@ const LoginForm = ({ setIsAuthenticated }) => {
                 />
               </div>
 
-              {/* Password */}
+              {/* Password with visibility toggle */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-lock text-gray-500 mr-2"></i>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Password"
                   className="w-full bg-transparent outline-none"
                   value={password}
@@ -98,9 +99,16 @@ const LoginForm = ({ setIsAuthenticated }) => {
                   autoComplete="current-password"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="ml-2 text-gray-500 focus:outline-none"
+                >
+                  <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                </button>
               </div>
 
-              {/* Button */}
+              {/* Login Button */}
               <button
                 type="submit"
                 className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 shadow-md"
