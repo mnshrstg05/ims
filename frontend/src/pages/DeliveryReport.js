@@ -81,7 +81,7 @@ const DeliveryReport = () => {
                         <p><strong>Warehouse:</strong> ${voucher.warehouse}</p>
                     </div>
                     <div class="voucher-item">
-                        <p><strong>Receiver:</strong> ${voucher.receiverDetails.name} / ${voucher.receiverDetails.mobileNumber}</p>
+                        <p><strong>Delivered:</strong> ${voucher.receiverDetails.name} / ${voucher.receiverDetails.mobileNumber}</p>
                         <p><strong>Location:</strong> ${voucher.receiverDetails.location}</p>
                     </div>
                     <div class="voucher-item">
@@ -122,7 +122,7 @@ const DeliveryReport = () => {
         <div className="flex flex-col p-6 space-y-6">
             <ToastContainer position="top-center" />
 
-            <h1 className="text-3xl font-semibold text-teal-700">Delivery Report</h1>
+            <h1 className="text-3xl font-bold text-teal-700">Delivery Report</h1>
 
             <input
                 type="text"
@@ -146,7 +146,7 @@ const DeliveryReport = () => {
                                     <th className="border px-4 py-2 text-left">S/N</th>
                                     <th className="border px-4 py-2 text-left">Product Name</th>
                                     <th className="border px-4 py-2 text-left">Quantity / Box</th>
-                                    <th className="border px-4 py-2 text-left">Receiver</th>
+                                    <th className="border px-4 py-2 text-left">Delivered</th>
                                     <th className="border px-4 py-2 text-left">Location</th>
                                     <th className="border px-4 py-2 text-left">Date</th>
                                     <th className="border px-4 py-2 text-left">Action</th>
@@ -157,10 +157,10 @@ const DeliveryReport = () => {
                                     voucher.goods.map((item, index) => (
                                         <tr key={voucher._id + index} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                                             <td className="border px-4 py-2">{index + 1}</td>
-                                            <td className="border px-4 py-2">{item.productName}</td>
+                                            <td className="border px-4 py-2 uppercase">{item.productName}</td>
                                             <td className="border px-4 py-2">{item.quantitySent} / {item.boxNumber}</td>
                                             <td className="border px-4 py-2 uppercase">{voucher.receiverDetails.name} / {voucher.receiverDetails.mobileNumber}</td>
-                                            <td className="border px-4 py-2">{voucher.receiverDetails.location}</td>
+                                            <td className="border px-4 py-2 uppercase">{voucher.receiverDetails.location}</td>
                                             <td className="border px-4 py-2">{formatDate(voucher.dateOfDelivery)}</td>
                                             <td className="border px-4 py-2">
                                                 <div className="flex flex-col sm:flex-row gap-2">

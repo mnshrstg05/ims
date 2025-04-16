@@ -33,7 +33,7 @@ const LoginForm = ({ setIsAuthenticated }) => {
       {/* Header */}
       <div className="fixed top-0 w-full py-4 px-4 bg-gray-900 text-white z-50 shadow-md">
         <div className="container mx-auto flex items-center justify-center md:justify-start">
-          <h1 className="text-2xl md:text-3xl font-semibold">Inventory Management System</h1>
+          <h1 className="text-2xl md:text-3xl font-semibold">Stock Management System</h1>
         </div>
       </div>
 
