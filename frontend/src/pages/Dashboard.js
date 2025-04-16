@@ -68,7 +68,7 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                         <StatCard icon={<FaBox />} title="Total Products" value={totalProducts} to="/products" color="text-blue-500" />
                         <StatCard icon={<FaTags />} title="Total Categories" value={totalCategories} to="/categories" color="text-purple-500" />
-                        <StatCard icon={<FaBox />} title="Inventory Report" value={totalInventoryReports} to="/inventory" color="text-teal-500" />
+                        <StatCard icon={<FaBox />} title="Stock Status" value={totalInventoryReports} to="/inventory" color="text-teal-500" />
                         <StatCard icon={<FaTags />} title="Voucher" value={totalVouchers} to="/vouchers" color="text-orange-500" />
                     </div>
 

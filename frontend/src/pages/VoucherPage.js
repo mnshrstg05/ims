@@ -115,7 +115,7 @@ const InventoryDeliveryVoucher = () => {
 
     return (
         <div className="flex flex-col p-6 space-y-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-semibold text-yellow-600 text-center">Delivery Voucher</h1>
+            <h1 className="text-3xl font-bold text-yellow-600 text-center">Delivery Voucher</h1>
 
             <form onSubmit={handleSubmit} className="bg-gray-200 p-6 rounded-lg shadow-md border space-y-6">
                 {/* Voucher Info */}

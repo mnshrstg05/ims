@@ -43,12 +43,12 @@ const ProductPage = () => {
     return (
         <div className="flex flex-col p-6">
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-3xl text-teal-600 font-semibold">Product Details</h1>
+                <h1 className="text-3xl text-teal-700 font-bold">Product Details</h1>
                 <Link
                     to="/products/add-product"
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
                 >
-                    Add New Product
+                    Add Product
                 </Link>
             </div>
 
