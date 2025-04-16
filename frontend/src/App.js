@@ -24,6 +24,8 @@ import CreateUser from './pages/CreateUser';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true); // 🔥 Added missing state
+  const [showMobileNav, setShowMobileNav] = useState(false); // 👈 Added this line
+
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -68,9 +70,9 @@ const App = () => {
       <div className="flex min-h-screen flex-col">
         {isAuthenticated ? (
           <div className="flex flex-1 h-screen">
-            <LeftNav />
+            <LeftNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />
             <div className="flex flex-col flex-1 overflow-hidden">
-              <Header setIsAuthenticated={setIsAuthenticated} />
+              <Header setIsAuthenticated={setIsAuthenticated}  onToggleMobileNav={() => setShowMobileNav(prev => !prev)} />
               <main className="flex-1 overflow-auto p-3">
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />

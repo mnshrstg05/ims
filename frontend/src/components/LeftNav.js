@@ -1,45 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 
-const LeftNav = () => {
+const LeftNav = ({ showMobileNav, setShowMobileNav }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    const [showMobileNav, setShowMobileNav] = useState(false);
     const location = useLocation();
 
-    // Toggle for large screen collapse
     const toggleCollapse = () => setCollapsed(!collapsed);
-
-    // Toggle for mobile nav visibility
-    const toggleMobileNav = () => setShowMobileNav(!showMobileNav);
-
-    const handleResize = () => {
-        const mobile = window.innerWidth <= 768;
-        setIsMobile(mobile);
-        if (!mobile) setShowMobileNav(false);
-    };
+    const toggleMobileNav = () => setShowMobileNav(prev => !prev);
 
     useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth <= 768;
+            setIsMobile(mobile);
+            if (!mobile) setShowMobileNav(false);
+        };
+
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    }, [setShowMobileNav]);
 
     const isActive = (path) => location.pathname.startsWith(path);
 
     return (
         <>
-            {/* Mobile Hamburger Button */}
-            {isMobile && (
-                <button
-                    onClick={toggleMobileNav}
-                    className="fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded-md shadow-md"
-                >
-                    <i className="fas fa-bars text-lg"></i>
-                </button>
-            )}
-
-            {/* Sidebar */}
             <nav
                 className={`bg-gray-800 text-white z-40 flex flex-col
                     ${isMobile
@@ -48,11 +33,8 @@ const LeftNav = () => {
                         : `${collapsed ? 'w-20' : 'w-64'} h-screen transition-all duration-300`}
                 `}
             >
-                {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                    <h1 className={`text-2xl font-bold ${collapsed && !isMobile ? 'hidden' : ''}`}>
-                        KEYTRA IMS
-                    </h1>
+                    <h1 className={`text-2xl font-bold ${collapsed && !isMobile ? 'hidden' : ''}`}>KEYTRA IMS</h1>
                     {!isMobile ? (
                         <button onClick={toggleCollapse} className="focus:outline-none">
                             {collapsed ? <i className="fas fa-bars"></i> : <i className="fas fa-chevron-left"></i>}
@@ -64,8 +46,7 @@ const LeftNav = () => {
                     )}
                 </div>
 
-                {/* Navigation Links */}
-                <div className="py-2 text-white overflow-y-auto flex-1">
+                <div className="py-2 overflow-y-auto flex-1">
                     <ul>
                         {[
                             { to: '/dashboard', icon: 'fa-house', label: 'Dashboard' },
@@ -93,12 +74,8 @@ const LeftNav = () => {
                 </div>
             </nav>
 
-            {/* Optional Overlay for Mobile */}
             {isMobile && showMobileNav && (
-                <div
-                    onClick={toggleMobileNav}
-                    className="fixed inset-0 bg-black opacity-40 z-30"
-                />
+                <div onClick={toggleMobileNav} className="fixed inset-0 bg-black opacity-40 z-30" />
             )}
         </>
     );
