@@ -12,6 +12,9 @@ const CreateUser = () => {
   const [role, setRole] = useState('Staff');
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -84,6 +87,7 @@ const CreateUser = () => {
             </h2>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* Username */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-user text-gray-500 mr-2"></i>
                 <input
@@ -97,10 +101,11 @@ const CreateUser = () => {
                 />
               </div>
 
+              {/* Password */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-lock text-gray-500 mr-2"></i>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
@@ -108,12 +113,20 @@ const CreateUser = () => {
                   required
                   autoComplete="new-password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="ml-2 text-gray-500 focus:outline-none"
+                >
+                  <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                </button>
               </div>
 
+              {/* Confirm Password */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-lock text-gray-500 mr-2"></i>
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
@@ -121,8 +134,16 @@ const CreateUser = () => {
                   required
                   autoComplete="new-password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="ml-2 text-gray-500 focus:outline-none"
+                >
+                  <i className={`fa ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                </button>
               </div>
 
+              {/* Email */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-envelope text-gray-500 mr-2"></i>
                 <input
@@ -135,6 +156,7 @@ const CreateUser = () => {
                 />
               </div>
 
+              {/* Role */}
               <div className="flex items-center border rounded-lg px-3 py-2 bg-white focus-within:ring-2 focus-within:ring-blue-400 transition">
                 <i className="fa fa-user-tag text-gray-500 mr-2"></i>
                 <select
@@ -149,6 +171,7 @@ const CreateUser = () => {
                 </select>
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300 shadow-md"
