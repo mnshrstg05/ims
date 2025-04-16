@@ -7,7 +7,7 @@ const HeroSection = () => {
             <section className="bg-orange-700 text-white py-20">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-4">Inventory Management System</h1>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-4">Stock Management System</h1>
                         <p className="text-lg md:text-xl mb-8">Take control of your inventory with our powerful and intuitive management system. Simplify your operations, optimize stock levels, and boost productivity.</p>
                         <div className="mt-8">
                             <h2 className="text-2xl font-semibold mb-4">Why Choose Us?</h2>

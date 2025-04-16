@@ -21,13 +21,6 @@ const TopHeader = () => {
 
                     <li>
                         <button className="bg-transparent rounded p-1.5 md:px-4 md:py-2 mr-4 text-sm md:text-lg"
-                            onClick={() => scrollToSection('pricing')}>
-                            Pricing
-                        </button>
-                    </li>
-
-                    <li>
-                        <button className="bg-transparent rounded p-1.5 md:px-4 md:py-2 mr-4 text-sm md:text-lg"
                             onClick={() => scrollToSection('contact')}>
                             Contact
                         </button>
