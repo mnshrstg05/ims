@@ -74,10 +74,11 @@ const LeftNav = ({ showMobileNav, setShowMobileNav }) => {
                                         {!collapsed || isMobile ? label : ''}
                                     </Link>
 
-                                    {/* Tooltip on Hover */}
+                                    {/* Custom Tooltip */}
                                     {collapsed && !isMobile && (
-                                        <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                                        <span className="absolute left-full top-1/2 transform -translate-y-1/2 ml-3 px-3 py-1 bg-gray-900 text-white text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 pointer-events-none">
                                             {label}
+                                            <span className="absolute left-0 top-1/2 -translate-y-1/2 -ml-1 w-2 h-2 bg-gray-900 transform rotate-45 z-[-1]" />
                                         </span>
                                     )}
                                 </div>
