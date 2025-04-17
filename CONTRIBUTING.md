@@ -5,7 +5,7 @@ Thank you for considering contributing to StockFlow! By participating in this pr
 ## How to Contribute
 
 1. Fork the repository.
-2. Clone your forked repository: `git clone https://github.com/priyans-hu/stockflow`
+2. Clone your forked repository: `git clone https://github.com/mnshrstg05/ims`
 3. Create a new branch for your feature: `git checkout -b feature/new-feature`
 4. Make your changes and commit: `git commit -m "Add new feature"`
 5. Push your changes to your fork: `git push origin feature/new-feature`

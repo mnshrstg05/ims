@@ -1,6 +1,6 @@
 # StockFlow Inventory Management System
 
-Welcome to StockFlow, your comprehensive solution for efficient inventory management. Manage your products, track inventory, and streamline order processes with ease.
+Welcome to Stock Management System, your comprehensive solution for efficient inventory management. Manage your products, track inventory, and streamline voucher processes with ease.
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ The system ensures data and feature isolation for each user, ensuring their data
 
 ### Order Management
 
-- Create and manage purchase orders.
+- Create and manage purchase product and deliver stock create reports in the form of vouchers.
 - Track order status and fulfillment.
 
 ### User Authentication and Authorization
