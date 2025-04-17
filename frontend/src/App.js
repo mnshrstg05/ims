@@ -67,40 +67,53 @@ const App = () => {
 
   return (
     <Router>
-      <div className="flex min-h-screen flex-col">
-        {isAuthenticated ? (
-          <div className="flex flex-1 h-screen">
-            <LeftNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />
-            <div className="flex flex-col flex-1 overflow-hidden">
-              <Header setIsAuthenticated={setIsAuthenticated}  onToggleMobileNav={() => setShowMobileNav(prev => !prev)} />
-              <main className="flex-1 overflow-auto p-3">
-                <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/inventory" element={<InventoryPage />} />
-                  <Route path="/products" element={<ProductPage />} />
-                  <Route path="/inventory/edit/:id" element={<EditInventoryForm />} />
-                  <Route path="/products/edit-product/:productId" element={<EditProductForm />} />
-                  <Route path="/inventory/add-product" element={<AddInventoryForm />} />
-                  <Route path="/products/add-product" element={<AddProductForm />} />
-                  <Route path="/categories" element={<CategoriesPage />} />
-                  <Route path="/vouchers" element={<VoucherPage />} />
-                  <Route path="/delivery-report" element={<DeliveryReport />} />
-                  <Route path="*" element={<Navigate to="/dashboard" />} />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
+    {isAuthenticated ? (
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar */}
+        <LeftNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />
+  
+        {/* Main content area */}
+        <div className="flex flex-col flex-1">
+          {/* Header */}
+          <Header
+            setIsAuthenticated={setIsAuthenticated}
+            onToggleMobileNav={() => setShowMobileNav((prev) => !prev)}
+          />
+  
+          {/* Scrollable content area including main + footer */}
+          <div className="flex-1 overflow-y-auto flex flex-col">
+            {/* Main Content */}
+            <main className="flex-1 p-3">
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/inventory" element={<InventoryPage />} />
+                <Route path="/products" element={<ProductPage />} />
+                <Route path="/inventory/edit/:id" element={<EditInventoryForm />} />
+                <Route path="/products/edit-product/:productId" element={<EditProductForm />} />
+                <Route path="/inventory/add-product" element={<AddInventoryForm />} />
+                <Route path="/products/add-product" element={<AddProductForm />} />
+                <Route path="/categories" element={<CategoriesPage />} />
+                <Route path="/vouchers" element={<VoucherPage />} />
+                <Route path="/delivery-report" element={<DeliveryReport />} />
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+              </Routes>
+            </main>
+  
+            {/* Footer always below main */}
+            <Footer />
           </div>
-        ) : (
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/signup" element={<CreateUser />} />
-            <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
-        )}
+        </div>
       </div>
-    </Router>
+    ) : (
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<CreateUser />} />
+        <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    )}
+  </Router>
+  
   );
 };
 
