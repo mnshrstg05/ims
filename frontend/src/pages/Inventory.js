@@ -102,7 +102,7 @@ const InventoryPage = () => {
                                         {product.product?.image ? (
                                             <div className="group relative">
                                                 <img
-                                                    src={`https://ims-3cdk.onrender.com/${product.product?.image}`}
+                                                    src={product.product?.image}
                                                     alt={product.product?.name}
                                                     className="h-14 object-cover transition-transform duration-300 group-hover:scale-150"
                                                 />
