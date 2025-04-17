@@ -98,7 +98,7 @@ const Header = ({ setIsAuthenticated, onToggleMobileNav }) => {
             <header className="
                 text-white px-4 py-4 flex justify-between items-center shadow-md sticky top-0 z-50
                 bg-gradient-to-r from-teal-400 via-white-200 to-teal-600
-                md:bg-gradient-to-r md:from-gray-400 md:via-white-200 md:to-gray-300
+                md:bg-gradient-to-r md:from-teal-400 md:via-white-200 md:to-teal-500
             ">
                 <div className="flex items-center gap-3">
                     <button className="md:hidden text-2xl" onClick={onToggleMobileNav}>☰</button>

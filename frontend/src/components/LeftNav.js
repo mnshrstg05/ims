@@ -35,14 +35,14 @@ const LeftNav = ({ showMobileNav, setShowMobileNav }) => {
     return (
         <>
             <nav
-                className={`bg-gray-800 text-white z-40 flex flex-col
+                className={`bg-teal-700 text-white z-40 flex flex-col
                     ${isMobile
                         ? `fixed top-0 left-0 h-screen transition-transform duration-300 ease-in-out
                            ${showMobileNav ? 'translate-x-0' : '-translate-x-full'} w-64`
                         : `${collapsed ? 'w-20' : 'w-64'} h-screen transition-all duration-300`}
                 `}
             >
-                <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                <div className="flex items-center justify-between p-4 border-b border-teal-600">
                     <h1 className={`text-2xl font-bold ${collapsed && !isMobile ? 'hidden' : ''}`}>KEYTRA IMS</h1>
                     {!isMobile ? (
                         <button onClick={toggleCollapse} className="focus:outline-none">
@@ -64,8 +64,8 @@ const LeftNav = ({ showMobileNav, setShowMobileNav }) => {
                                     <Link
                                         to={to}
                                         onClick={() => isMobile && setShowMobileNav(false)}
-                                        className={`block m-4 p-4 rounded-xl hover:bg-gray-700 transition-all
-                                            ${isActive(to) ? 'bg-gray-900 text-white font-bold' : ''}
+                                        className={`block m-4 p-4 rounded-xl hover:bg-teal-600 transition-all
+                                            ${isActive(to) ? 'bg-teal-800 text-white font-bold' : ''}
                                             ${collapsed && !isMobile ? 'text-center' : ''}
                                         `}
                                         title={collapsed && !isMobile ? label : ''}
