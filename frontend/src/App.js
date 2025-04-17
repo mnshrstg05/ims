@@ -67,18 +67,13 @@ const App = () => {
 
   return (
     <Router>
-    <div className="flex min-h-screen">
-      {isAuthenticated ? (
-        <>
-          <LeftNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />
-          
-          {/* Main content area */}
-          <div className="flex flex-col flex-1">
-            <Header setIsAuthenticated={setIsAuthenticated} onToggleMobileNav={() => setShowMobileNav(prev => !prev)} />
-  
-            {/* Scrollable content with footer below */}
-            <div className="flex flex-col flex-1 overflow-auto">
-              <main className="flex-1 p-3">
+      <div className="flex min-h-screen flex-col">
+        {isAuthenticated ? (
+          <div className="flex flex-1 h-screen">
+            <LeftNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <Header setIsAuthenticated={setIsAuthenticated}  onToggleMobileNav={() => setShowMobileNav(prev => !prev)} />
+              <main className="flex-1 overflow-auto p-3">
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/inventory" element={<InventoryPage />} />
@@ -96,18 +91,16 @@ const App = () => {
               <Footer />
             </div>
           </div>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<CreateUser />} />
-          <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      )}
-    </div>
-  </Router>
-  
+        ) : (
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/signup" element={<CreateUser />} />
+            <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        )}
+      </div>
+    </Router>
   );
 };
 
