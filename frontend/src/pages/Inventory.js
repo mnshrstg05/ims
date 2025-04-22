@@ -43,27 +43,30 @@ const InventoryPage = () => {
     };
 
     return (
-        <div className="p-6">
-            <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-                <h1 className="text-3xl text-teal-700 font-bold">Stock Report</h1>
+        <div className="p-4 sm:p-6">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-6 mb-6">
+                <h1 className="text-2xl sm:text-3xl font-bold text-teal-700">Stock Report</h1>
                 <Link
                     to="/inventory/add-product"
-                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm sm:text-base"
                 >
-                    ADD INVENTORY 
+                    + ADD INVENTORY
                 </Link>
             </div>
 
+            {/* Error message */}
             {error && <p className="text-red-500 mb-4">{error}</p>}
 
-            <div className="overflow-x-auto">
-                <table className="min-w-full border-collapse border border-gray-400">
+            {/* Table */}
+            <div className="overflow-x-auto border border-gray-300 rounded-md">
+                <table className="min-w-[700px] sm:min-w-full text-sm sm:text-base border-collapse w-full">
                     <thead className="bg-teal-600 text-white">
                         <tr>
                             <th className="border px-2 py-2 text-xs">Sn No</th>
                             <th className="border px-2 py-2 text-xs">Product Name</th>
                             <th className="border px-2 py-2 text-xs">Image</th>
-                            <th className="border px-2 py-2 text-xs">InStock Quantity</th>
+                            <th className="border px-2 py-2 text-xs">InStock</th>
                             <th className="border px-2 py-2 text-xs">Stock Out</th>
                             <th className="border px-2 py-2 text-xs">Date</th>
                             <th className="border px-2 py-2 text-xs">Actions</th>
@@ -82,7 +85,7 @@ const InventoryPage = () => {
                             ))
                         ) : products.length === 0 ? (
                             <tr>
-                                <td colSpan="7" className="text-center py-4">
+                                <td colSpan="7" className="text-center py-4 text-gray-500">
                                     No inventory records found.
                                 </td>
                             </tr>
@@ -95,46 +98,52 @@ const InventoryPage = () => {
                                     }`}
                                 >
                                     <td className="border px-2 py-2 text-xs text-center">{index + 1}</td>
-                                    <td className="border px-2 py-2 text-xs uppercase text-yellow-800 font-bold">
+                                    <td className="border px-2 py-2 text-xs uppercase text-yellow-800 font-semibold text-center">
                                         {product.product?.name || 'N/A'}
                                     </td>
                                     <td className="border px-2 py-2 text-center">
                                         {product.product?.image ? (
-                                            <div className="group relative">
+                                            <div className="group relative flex justify-center">
                                                 <img
                                                     src={product.product?.image}
                                                     alt={product.product?.name}
-                                                    className="h-14 object-cover transition-transform duration-300 group-hover:scale-150"
+                                                    className="h-14 w-14 sm:h-14 sm:w-14 object-cover rounded transition-transform duration-300 group-hover:scale-150"
                                                 />
                                             </div>
                                         ) : (
-                                            'No Image'
+                                            <span className="text-xs text-gray-500">No Image</span>
                                         )}
                                     </td>
                                     <td className="border px-2 py-2 text-sm text-center">
-                                        {product.quantityInStock === 0 ? 'Out of Stock' : product.quantityInStock}
+                                        {product.quantityInStock === 0 ? (
+                                            <span className="text-red-500 font-semibold text-xs">Out of Stock</span>
+                                        ) : (
+                                            product.quantityInStock
+                                        )}
                                     </td>
-                                    <td className="border px-2 py-2 text-sm text-center">{product.quantityOutStock}</td>
+                                    <td className="border px-2 py-2 text-sm text-center">
+                                        {product.quantityOutStock}
+                                    </td>
                                     <td className="border px-2 py-2 text-xs text-center">
                                         {product.lastRestockedDate
                                             ? new Date(product.lastRestockedDate).toLocaleDateString('en-GB', {
                                                   day: 'numeric',
-                                                  month: 'long',
+                                                  month: 'short',
                                                   year: 'numeric',
                                               })
                                             : 'N/A'}
                                     </td>
-                                    <td className="border px-2 py-2">
-                                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                                    <td className="border px-2 py-2 text-center">
+                                        <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
                                             <Link
                                                 to={`/inventory/edit/${product._id}`}
-                                                className="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1.5 px-4 rounded flex items-center gap-1"
+                                                className="bg-blue-500 hover:bg-blue-600 text-white text-xs sm:text-sm py-1 px-3 rounded flex items-center gap-1"
                                             >
                                                 <FaEdit /> Edit
                                             </Link>
                                             <button
                                                 onClick={() => handleDeleteProduct(product._id)}
-                                                className="bg-red-500 hover:bg-red-600 text-white text-sm py-1 px-3 rounded flex items-center gap-1"
+                                                className="bg-red-500 hover:bg-red-600 text-white text-xs sm:text-sm py-1 px-3 rounded flex items-center gap-1"
                                             >
                                                 <FaTrash /> Delete
                                             </button>
