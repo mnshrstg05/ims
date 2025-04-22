@@ -12,16 +12,12 @@ const InventoryPage = () => {
     const loadInventory = () => {
       axios
         .get('https://ims-3cdk.onrender.com/inventory/all-inventory')
-        .then((response) => {
-          setProducts(response.data);
-        })
+        .then((response) => setProducts(response.data))
         .catch((error) => {
           console.error('Error fetching inventory items:', error);
           setError('Error fetching inventory items. Please try again later.');
         })
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
     };
 
     if ('requestIdleCallback' in window) {
@@ -56,15 +52,14 @@ const InventoryPage = () => {
         </Link>
       </div>
 
-      {/* Error message */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Scroll hint for mobile users */}
-      <p className="text-xs text-gray-500 mb-2 sm:hidden">Scroll right to view all columns →</p>
+      {/* Loading */}
+      {loading && <p className="text-gray-600">Loading...</p>}
 
-      {/* Scrollable table */}
-      <div className="overflow-x-auto w-full">
-        <table className="min-w-[900px] table-auto border-collapse border border-gray-300 w-full text-sm sm:text-base">
+      {/* ✅ Desktop Table */}
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="min-w-full table-auto border-collapse border border-gray-300">
           <thead className="bg-teal-600 text-white">
             <tr>
               <th className="border px-2 py-2 text-xs">Sn No</th>
@@ -77,85 +72,107 @@ const InventoryPage = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? (
-              [...Array(6)].map((_, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
-                  {[...Array(7)].map((__, i) => (
-                    <td key={i} className="border px-2 py-4">
-                      <div className="h-4 bg-gray-200 animate-pulse rounded w-full"></div>
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ) : products.length === 0 ? (
-              <tr>
-                <td colSpan="7" className="text-center py-4 text-gray-500">
-                  No inventory records found.
+            {products.map((product, index) => (
+              <tr
+                key={product._id}
+                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+              >
+                <td className="border px-2 py-2 text-xs text-center">{index + 1}</td>
+                <td className="border px-2 py-2 text-xs text-center uppercase text-yellow-800 font-semibold">
+                  {product.product?.name || 'N/A'}
+                </td>
+                <td className="border px-2 py-2 text-center">
+                  {product.product?.image ? (
+                    <img
+                      src={product.product?.image}
+                      alt={product.product?.name}
+                      className="h-14 w-14 object-cover rounded mx-auto"
+                    />
+                  ) : (
+                    'No Image'
+                  )}
+                </td>
+                <td className="border px-2 py-2 text-sm text-center">
+                  {product.quantityInStock === 0 ? (
+                    <span className="text-red-500 font-semibold">Out of Stock</span>
+                  ) : (
+                    product.quantityInStock
+                  )}
+                </td>
+                <td className="border px-2 py-2 text-sm text-center">{product.quantityOutStock}</td>
+                <td className="border px-2 py-2 text-xs text-center">
+                  {product.lastRestockedDate
+                    ? new Date(product.lastRestockedDate).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    : 'N/A'}
+                </td>
+                <td className="border px-2 py-2 text-center">
+                  <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+                    <Link
+                      to={`/inventory/edit/${product._id}`}
+                      className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-3 rounded flex items-center gap-1"
+                    >
+                      <FaEdit /> Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDeleteProduct(product._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-3 rounded flex items-center gap-1"
+                    >
+                      <FaTrash /> Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
-            ) : (
-              products.map((product, index) => (
-                <tr
-                  key={product._id}
-                  className={`transition-opacity duration-300 ${
-                    index % 2 === 0 ? 'bg-white' : 'bg-gray-100'
-                  }`}
-                >
-                  <td className="border px-2 py-2 text-xs text-center">{index + 1}</td>
-                  <td className="border px-2 py-2 text-xs uppercase text-yellow-800 font-semibold text-center">
-                    {product.product?.name || 'N/A'}
-                  </td>
-                  <td className="border px-2 py-2 text-center">
-                    {product.product?.image ? (
-                      <div className="group relative flex justify-center">
-                        <img
-                          src={product.product?.image}
-                          alt={product.product?.name}
-                          className="h-14 w-14 object-cover rounded transition-transform duration-300 group-hover:scale-150"
-                        />
-                      </div>
-                    ) : (
-                      <span className="text-xs text-gray-500">No Image</span>
-                    )}
-                  </td>
-                  <td className="border px-2 py-2 text-sm text-center">
-                    {product.quantityInStock === 0 ? (
-                      <span className="text-red-500 font-semibold text-xs">Out of Stock</span>
-                    ) : (
-                      product.quantityInStock
-                    )}
-                  </td>
-                  <td className="border px-2 py-2 text-sm text-center">{product.quantityOutStock}</td>
-                  <td className="border px-2 py-2 text-xs text-center">
-                    {product.lastRestockedDate
-                      ? new Date(product.lastRestockedDate).toLocaleDateString('en-GB', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })
-                      : 'N/A'}
-                  </td>
-                  <td className="border px-2 py-2 text-center">
-                    <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-                      <Link
-                        to={`/inventory/edit/${product._id}`}
-                        className="bg-blue-500 hover:bg-blue-600 text-white text-xs sm:text-sm py-1 px-3 rounded flex items-center gap-1"
-                      >
-                        <FaEdit /> Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteProduct(product._id)}
-                        className="bg-red-500 hover:bg-red-600 text-white text-xs sm:text-sm py-1 px-3 rounded flex items-center gap-1"
-                      >
-                        <FaTrash /> Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
+      </div>
+
+      {/* ✅ Mobile Card View */}
+      <div className="sm:hidden flex flex-col gap-4">
+        {products.map((product, index) => (
+          <div key={product._id} className="bg-white rounded-lg border border-gray-300 p-4 shadow-sm">
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-sm font-bold text-yellow-700 uppercase">
+                {product.product?.name || 'Unnamed Product'}
+              </h2>
+              <span className="text-xs text-gray-500">#{index + 1}</span>
+            </div>
+            {product.product?.image && (
+              <img
+                src={product.product.image}
+                alt={product.product.name}
+                className="h-24 w-24 object-cover rounded mb-2"
+              />
+            )}
+            <p className="text-xs"><strong>In Stock:</strong> {product.quantityInStock || 0}</p>
+            <p className="text-xs"><strong>Stock Out:</strong> {product.quantityOutStock || 0}</p>
+            <p className="text-xs"><strong>Last Restocked:</strong> {product.lastRestockedDate
+              ? new Date(product.lastRestockedDate).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                })
+              : 'N/A'}</p>
+            <div className="flex gap-2 mt-3">
+              <Link
+                to={`/inventory/edit/${product._id}`}
+                className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-3 rounded flex items-center gap-1"
+              >
+                <FaEdit /> Edit
+              </Link>
+              <button
+                onClick={() => handleDeleteProduct(product._id)}
+                className="bg-red-500 hover:bg-red-600 text-white text-xs py-1 px-3 rounded flex items-center gap-1"
+              >
+                <FaTrash /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
