@@ -78,7 +78,7 @@ const DeliveryReport = () => {
                 <div class="voucher-details">
                     <div class="voucher-item">
                         <p><strong>Sender:</strong> ${voucher.senderDetails.name} / ${voucher.senderDetails.mobileNumber}</p>
-                        <p><strong>Warehouse:</strong> ${voucher.senderDetails.location}</p>
+                        <p><strong>Warehouse:</strong> ${voucher.senderDetails.warehouse}</p>
                     </div>
                     <div class="voucher-item">
                         <p><strong>Delivered:</strong> ${voucher.receiverDetails.name} / ${voucher.receiverDetails.mobileNumber}</p>
